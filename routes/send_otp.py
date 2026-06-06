@@ -12,6 +12,9 @@ def send_otp(event):
         username = body.get("username")
         to_email = body.get("email")
 
+        if not username and not to_email:
+            _json_response(400, {"message": "Email or username is required."})
+
         otp_data = generate_otp()
         existing_user = users_col.find_one({
             "$or": [

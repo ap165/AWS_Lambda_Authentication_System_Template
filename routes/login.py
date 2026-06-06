@@ -22,6 +22,9 @@ def login(event):
             user = users_col.find_one({"userId": username})
         else:
             user = users_col.find_one({"email": email})
+        
+        if not user:
+            return _json_response(401, {"message": "Invalid Credentials."})
         password_valid = pbkdf2_sha256.verify(password, user.get("passwordHash")) if password else False
         
         if not password:

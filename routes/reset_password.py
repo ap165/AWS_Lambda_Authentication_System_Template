@@ -30,10 +30,10 @@ def reset_password(event):
             return _json_response(400, {"message": "No user found."})
 
         otpHash = otp_col.find_one({"email": user["email"]}, {"otp_hash": 1})
-        otp_col.delete_one({"email": user["email"]})
         otp_valid = otpHash and pbkdf2_sha256.verify(str(otp), otpHash["otp_hash"])
 
         if otp_valid:
+            otp_col.delete_one({"email": user["email"]})
             new_passwordHash = pbkdf2_sha256.hash(new_password)
             users_col.update_one(
                 {"email": user["email"]},

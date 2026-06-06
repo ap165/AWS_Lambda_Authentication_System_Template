@@ -16,6 +16,11 @@ ROUTES = {
 def lambda_handler(event, context):
     rc = event.get("requestContext", {}).get("http", {})
     key = (rc.get("path"), rc.get("method"))
+    body = event.get("body")
+
+    if body and len(body) > 400: ## body size can't exceed 400 bytes
+        return _json_response(400, {"message": "Request body too large."})
+
 
     # Simple welcome message for root path
     if key[0] == "/" and key[1] in ["GET", "POST"]:
@@ -33,46 +38,3 @@ def lambda_handler(event, context):
     except Exception as e:
         return _json_response(500, {"message": "An error occurred while processing the request.", "error": str(e)})
     
-
-if __name__ == "__main__":
-    # For local testing
-    test_event = {
-    "version": "2.0",
-    "routeKey": "POST /send_reset_otp",
-    "rawPath": "/send_reset_otp",
-    "rawQueryString": "",
-    "headers": {
-        "accept": "*/*",
-        "accept-encoding": "gzip, deflate, br",
-        "content-length": "127",
-        "content-type": "application/json",
-        "host": "lo0rdwswbh.execute-api.ap-southeast-1.amazonaws.com",
-        "postman-token": "2bfc58f2-ccc6-486e-9e4b-0fae55fe6a46",
-        "user-agent": "PostmanRuntime/7.54.0",
-        "x-amzn-trace-id": "Root=1-6a1a859d-41d97bb51de2dc6a38e29704",
-        "x-forwarded-for": "45.64.239.1",
-        "x-forwarded-port": "443",
-        "x-forwarded-proto": "https"
-    },
-    "requestContext": {
-        "accountId": "201037000894",
-        "apiId": "lo0rdwswbh",
-        "domainName": "lo0rdwswbh.execute-api.ap-southeast-1.amazonaws.com",
-        "domainPrefix": "lo0rdwswbh",
-        "http": {
-            "method": "POST",
-            "path": "/send_reset_otp",
-            "protocol": "HTTP/1.1",
-            "sourceIp": "45.64.239.1",
-            "userAgent": "PostmanRuntime/7.54.0"
-        },
-        "requestId": "eKnQsjy0SQ0EMGQ=",
-        "routeKey": "POST /send_reset_otp",
-        "stage": "$default",
-        "time": "30/May/2026:06:37:17 +0000",
-        "timeEpoch": 1780123037659
-    },
-    "body": "{\"username\": \"ap1650\"}",
-}
-
-    print(lambda_handler(test_event, None))

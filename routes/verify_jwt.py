@@ -2,7 +2,9 @@ from utils import verify_tokens, _json_response
 
 def verify_jwt_route(event):
     auth_header = event.get("headers", {}).get("authorization", "")
-    token = auth_header.split(" ")[1] if auth_header.startswith("Bearer ") else None
+    parts = auth_header.split(" ")
+    token = parts[1] if len(parts) == 2 and parts[0] == "Bearer" else None
+
     payload = verify_tokens(token) if token else None
     
     if payload:
