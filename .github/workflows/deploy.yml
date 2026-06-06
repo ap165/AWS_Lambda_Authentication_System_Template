@@ -34,3 +34,19 @@ jobs:
           aws_region: ${{ secrets.AWS_REGION }}
           function_name: ${{ secrets.LAMBDA_FUNCTION_NAME }}
           zip_file: deployment.zip
+
+      - name: Delete old Lambda versions
+        run: |
+          aws lambda list-versions-by-function \
+            --function-name ${{ secrets.LAMBDA_FUNCTION_NAME }} \
+            --query 'Versions[?Version!=`$LATEST`].Version' \
+            --output text | tr '\t' '\n' | \
+          while read version; do
+            aws lambda delete-function \
+              --function-name ${{ secrets.LAMBDA_FUNCTION_NAME }} \
+              --qualifier $version
+          done
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ secrets.AWS_REGION }}
