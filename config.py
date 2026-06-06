@@ -16,7 +16,7 @@ import os
 
 # SMTP Configuration - these will be used in the main.py file for sending OTP emails
 SMTP_HOST = os.getenv("SMTP_HOST")
-SMTP_PORT = int(os.getenv("SMTP_PORT"))  # Default to 465 if not set
+SMTP_PORT = (os.getenv("SMTP_PORT"))  # Default to 465 if not set
 SMTP_USER = os.getenv("SMTP_USERNAME")
 SMTP_PASS = os.getenv("SMTP_PASSWORD")
 SMTP_FROM_EMAIL = os.getenv("SMTP_FROM_EMAIL")
