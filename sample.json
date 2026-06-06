@@ -1,0 +1,39 @@
+{
+    "version": "2.0",
+    "routeKey": "POST /send_reset_otp",
+    "rawPath": "/send_reset_otp",
+    "rawQueryString": "",
+    "headers": {
+        "accept": "*/*",
+        "accept-encoding": "gzip, deflate, br",
+        "content-length": "127",
+        "content-type": "application/json",
+        "host": "lo0rdwswbh.execute-api.ap-southeast-1.amazonaws.com",
+        "postman-token": "2bfc58f2-ccc6-486e-9e4b-0fae55fe6a46",
+        "user-agent": "PostmanRuntime/7.54.0",
+        "x-amzn-trace-id": "Root=1-6a1a859d-41d97bb51de2dc6a38e29704",
+        "x-forwarded-for": "45.64.239.1",
+        "x-forwarded-port": "443",
+        "x-forwarded-proto": "https"
+    },
+    "requestContext": {
+        "accountId": "201037000894",
+        "apiId": "lo0rdwswbh",
+        "domainName": "lo0rdwswbh.execute-api.ap-southeast-1.amazonaws.com",
+        "domainPrefix": "lo0rdwswbh",
+        "http": {
+            "method": "POST",
+            "path": "/send_reset_otp",
+            "protocol": "HTTP/1.1",
+            "sourceIp": "45.64.239.1",
+            "userAgent": "PostmanRuntime/7.54.0"
+        },
+        "requestId": "eKnQsjy0SQ0EMGQ=",
+        "routeKey": "POST /send_reset_otp",
+        "stage": "$default",
+        "time": "30/May/2026:06:37:17 +0000",
+        "timeEpoch": 1780123037659
+    },
+    "body": "{\"username\": \"ap1650\"}",
+    "isBase64Encoded": false
+}
