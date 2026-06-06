@@ -20,6 +20,9 @@ env/
 # Dependencies
 packages/
 
+#email_templates
+email_templates/
+
 # IDE
 .vscode/
 .idea/
