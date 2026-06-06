@@ -8,11 +8,11 @@
 ## SMTP_PASSWORD=your_smtp_password
 ## JWT_SECRET=your_jwt_secret_key
 ## SMTP_FROM_EMAIL=your_email_address_for_sending_emails
-
-from dotenv import load_dotenv
-load_dotenv()
-
 import os
+
+if os.path.exists(".env"):
+    from dotenv import load_dotenv
+    load_dotenv()
 
 # SMTP Configuration - these will be used in the main.py file for sending OTP emails
 SMTP_HOST = os.getenv("SMTP_HOST")
