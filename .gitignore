@@ -21,7 +21,7 @@ env/
 packages/
 
 #email_templates
-email_templates/
+# email_templates/
 
 # IDE
 .vscode/
