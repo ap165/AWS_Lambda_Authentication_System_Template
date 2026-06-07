@@ -1,6 +1,6 @@
 import json
 from datetime import datetime, timezone, timedelta
-from utils import generate_otp, send_email, _json_response, users_col, otp_col
+from utils import generate_otp, send_email, _json_response, users_col, otp_col, validate_email
 
 template = ""
 with open("email_templates/otp.html", "r") as f:
@@ -14,6 +14,10 @@ def send_otp(event):
 
         if not username and not to_email:
             _json_response(400, {"message": "Email or username is required."})
+        
+        if to_email:
+            if not validate_email(to_email):
+                return _json_response(400, {"message": "Invalid email address."})
 
         otp_data = generate_otp()
         existing_user = users_col.find_one({
