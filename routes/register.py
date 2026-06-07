@@ -31,11 +31,6 @@ def register_user(event):
             ]
         })
 
-        if existing_user:
-            return _json_response(400, {
-                "message": "User with this email or username already exists."
-            })
-        
         # Verify OTP
         otpHash = otp_col.find_one({"email": email}, {"otp_hash": 1})
 
@@ -45,6 +40,11 @@ def register_user(event):
                 "message": "Invalid or expired OTP."
             })
         otp_col.delete_one({"email": email})
+
+        if existing_user:
+            return _json_response(400, {
+                "message": "User with this email or username already exists."
+            })
         
         hashed_password = pbkdf2_sha256.hash(password)
         now = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
