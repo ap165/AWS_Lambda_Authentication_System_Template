@@ -24,7 +24,7 @@ jobs:
 
       - name: Zip deployment package
         run: |
-          zip -r deployment.zip . -x "*.git*" -x ".env" -x "email_templates/*"
+          zip -r deployment.zip . -x "*.git*" -x ".env"
 
       - name: Deploy to AWS Lambda
         uses: appleboy/lambda-action@master
