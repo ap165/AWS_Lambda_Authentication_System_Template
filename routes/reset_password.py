@@ -1,6 +1,6 @@
 import json
 from datetime import datetime, timezone
-from utils import send_email, _json_response, users_col, otp_col
+from utils import send_email, _json_response, users_col, otp_col, validate_password
 from passlib.hash import pbkdf2_sha256
 
 template = ""
@@ -15,8 +15,14 @@ def reset_password(event):
         otp = body.get("otp")
         new_password = body.get("new_password")
 
+        if not validate_password(new_password):
+            return _json_response(400, {"message": "Password must be at least 8 characters."})
+        
+        if not otp:
+            return _json_response(400, {"message": "OTP is required."})
+
         requestContext = event.get("requestContext", {})
-        LOGIN_TIME = requestContext.get("time", "Unknown Time")
+        CHANGE_TIME = requestContext.get("time", "Unknown Time")
         IP_ADDRESS = requestContext.get("http", {}).get("sourceIp", "Unknown IP")
 
         user = users_col.find_one({
@@ -35,6 +41,7 @@ def reset_password(event):
         if otp_valid:
             otp_col.delete_one({"email": user["email"]})
             new_passwordHash = pbkdf2_sha256.hash(new_password)
+
             users_col.update_one(
                 {"email": user["email"]},
                 {"$set": {
@@ -46,7 +53,7 @@ def reset_password(event):
                 "no-reply",
                 user["email"],
                 "Password Reset Detected",
-                template.replace("{{USER_NAME}}", user["userId"]).replace("{{IP_ADDRESS}}", IP_ADDRESS).replace("{{LOGIN_TIME}}", LOGIN_TIME)
+                template.replace("{{USER_NAME}}", user["userId"]).replace("{{IP_ADDRESS}}", IP_ADDRESS).replace("{{CHANGE_TIME}}", CHANGE_TIME)
             )
             return _json_response(200, {"message": "Password reset successful."})
 
