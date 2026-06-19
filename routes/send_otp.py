@@ -13,7 +13,7 @@ def send_otp(event):
         to_email = body.get("email")
 
         if not username and not to_email:
-            _json_response(400, {"message": "Email or username is required."})
+            _json_response(400, {"message": "Email and username is required."})
         
         if to_email:
             if not validate_email(to_email):
