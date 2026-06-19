@@ -18,8 +18,8 @@ def register_user(event):
 
         if not validate_email(email):
             return _json_response(400, {"message": "Invalid email address."})
-        if not validate_password(str(password)):
-            return _json_response(400, {"message": "Password must be at least 8 characters."})
+        # if not validate_password(password):
+        #     return _json_response(400, {"message": "Password must be at least 8 characters."})
         if not validate_username(userId):
             return _json_response(400, {"message": "Username must be 3-20 characters, letters/numbers/underscore only."})
 
