@@ -10,10 +10,8 @@ def login(event):
     try:
         data = json.loads(event["body"])
         requestContext = event.get("requestContext", {})
-
         IP_ADDRESS = requestContext.get("http", {}).get("sourceIp", "Unknown IP")
         LOGIN_TIME = requestContext.get("time", "Unknown Time")
-
         email = data.get("email")
         password = data.get("password")
         
