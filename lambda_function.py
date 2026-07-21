@@ -22,6 +22,7 @@ def lambda_handler(event, context):
         return _json_response(400, {"message": "Request body too large."})
 
 
+
     # Simple welcome message for root path
     if key[0] == "/" and key[1] in ["GET", "POST"]:
         return _json_response(200, {"message": "Welcome to the Authentication API!"})
